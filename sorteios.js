@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         infoLoaded = true;
       }
     } else {
-      window.location.replace("index.html"); //ALTERADO
+      //window.location.replace("index.html"); //ALTERADO
     }
   });
 

@@ -1,5 +1,5 @@
 .diallog {
-  display: none;
+  display: none; /* Oculto por padrão */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -9,97 +9,68 @@
   border: 1px solid #ccc;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 70%;
-}
-.diallog.open {
-  display: block;
-}
-.diallog-header {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-.diallog-body {
-  margin-bottom: 10px;
-}
-
-.diallog-footer {
-  text-align: right;
-}
-.diallog-footer button {
-  margin-left: 5px;
-}
-.investment-info {
-  margin-top: 10px;
-}
-.investment-info .investment {
-  color: red;
-}
-.investment-info .potential-earnings {
-  color: green;
-}
-input {
-  width: 30%;
-}
-
-.diallog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
   max-width: 500px;
+  z-index: 1000;
   width: 100%;
+}
+
+.diallog.open {
+  display: block; /* Exibido quando a classe 'open' é aplicada */
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .diallog {
+    width: 90%; /* Ajusta o diálogo para 90% da tela em dispositivos menores */
+  }
+
+  .diallog-header {
+    font-size: 20px; /* Ajusta o tamanho da fonte no cabeçalho para telas menores */
+  }
+
+  .diallog-body {
+    font-size: 14px; /* Ajusta o tamanho da fonte no corpo para telas menores */
+  }
+
+  .diallog-footer button {
+    padding: 8px 15px; /* Ajusta o padding dos botões para caber em telas menores */
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .diallog {
+    width: 95%; /* Ajusta o diálogo para 95% da tela em dispositivos muito pequenos */
+  }
+
+  .diallog-header {
+    font-size: 18px; /* Ajusta o tamanho da fonte no cabeçalho para dispositivos muito pequenos */
+  }
+
+  .diallog-body {
+    font-size: 13px; /* Ajusta o tamanho da fonte no corpo para dispositivos muito pequenos */
+  }
+
+  .diallog-footer button {
+    padding: 7px 10px; /* Ajusta o padding dos botões para caber melhor em dispositivos muito pequenos */
+    font-size: 12px;
+  }
 }
 
 .diallog-header {
   font-size: 24px;
+  margin-bottom: 20px;
   font-weight: bold;
   color: #1c3d72;
-  margin-bottom: 20px;
   text-align: center;
 }
 
 .diallog-body {
+  margin-bottom: 10px;
   font-size: 16px;
   line-height: 1.5;
   color: #333333;
-}
-
-.orient {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.diallog-body label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #1c3d72;
-}
-
-.diallog-body input[type="number"] {
-  width: calc(100% - 20px);
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.investment-info {
-  margin-top: 15px;
-  font-size: 14px;
-}
-
-.investment,
-.potential-earnings {
-  font-weight: bold;
-  margin-top: 10px;
-  color: #1c3d72;
 }
 
 .diallog-footer {
@@ -108,20 +79,38 @@ input {
 }
 
 .diallog-footer button {
+  margin-left: 5px;
   padding: 10px 20px;
-  margin: 0 5px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
 }
 
-.diallog-footer #cancelButton {
-  background-color: #f44336;
-  color: white;
+.investment-info {
+  margin-top: 10px;
+  font-size: 14px;
+  margin-top: 15px;
 }
 
-.diallog-footer #createButton {
-  background-color: #4caf50;
-  color: white;
+.investment-info .investment {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.investment-info .potential-earnings {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%; /* Ajusta o input para ocupar toda a largura disponível */
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box; /* Garante que o padding seja incluído na largura total do input */
 }
