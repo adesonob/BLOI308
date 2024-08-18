@@ -961,9 +961,10 @@ function showCodePix(codepix) {
   codePIXIS66 = codepix;
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
-  //const ver_button = document.getElementById("ver-button");
-  if (codePixElement && copyButton) {
+  const ver_button = document.getElementById("ver-button");
+  if (codePixElement && copyButton && ver_button) {
     codePixElement.innerText = codepix;
+    ver_button.style.display = "block";
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
