@@ -1,8 +1,3 @@
-versão 53
-alterado design na criação de sorteio
-adicionado ver qr code do pix
-adicionado suporte global de copiar qr code do pix
-
 versao 52
 tipo do codigo pix ajustado
 
