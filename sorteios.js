@@ -984,9 +984,10 @@ function generateQRCode(codePix) {
 function showCodePix(codepix) {
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
-  if (codePixElement && copyButton) {
+  const qrcode = document.getElementById("qrcode");
+  if (codePixElement && copyButton && qrcode) {
     codePixElement.innerText = codepix;
-    generateQRCode(codepix);
+    generateQRCode(codepix)
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
