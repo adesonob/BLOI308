@@ -966,17 +966,40 @@ function generateQRCode(codePix) {
 
   // Limpa o QR code existente (se houver)
   const qrcodeElement = document.getElementById("qrcode");
-  qrcodeElement.innerHTML = ""; // Limpa o conteúdo anterior
 
-  // Gera o QR code
-  console.log("Gerando QR code...");
-  new QRCode(qrcodeElement, {
-    text: codePix,
-    width: 200,
-    height: 200,
-  });
+  // Verifica se o elemento foi acessado
+  if (qrcodeElement) {
+    console.log("Elemento qrcode acessado com sucesso.");
+    qrcodeElement.innerHTML = ""; // Limpa o conteúdo anterior
+  } else {
+    console.error("Elemento qrcode não encontrado.");
+    return;
+  }
 
-  console.log("QR code gerado com sucesso.");
+  // URL da API do QuickChart
+  const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(
+    codePix
+  )}&size=200`;
+
+  // Usa fetch para buscar a imagem do QR Code
+  fetch(qrCodeUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro ao gerar o QR Code");
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const qrCodeImage = document.createElement("img");
+      qrCodeImage.src = URL.createObjectURL(blob);
+      qrCodeImage.alt = "QR Code";
+      qrcodeElement.appendChild(qrCodeImage);
+
+      console.log("QR code gerado e adicionado ao elemento com sucesso.");
+    })
+    .catch((error) => {
+      console.error("Erro ao gerar o QR Code:", error);
+    });
 }
 
 function showCodePix(codepix) {
