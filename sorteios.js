@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         infoLoaded = true;
       }
     } else {
-      window.location.replace('index.html'); //ALTERADO
+      window.location.replace("index.html"); //ALTERADO
     }
   });
 
@@ -959,15 +959,28 @@ function hideLoadingIndicator() {
 }
 function generateQRCode(codePix) {
   // Limpa o QR code existente (se houver)
+  console.log("Limpando QR code existente...");
   document.getElementById("qrcode").innerHTML = "";
 
+  // Verifica se o código PIX foi fornecido
+  if (codePix) {
+    console.log("Código PIX fornecido: " + codePix);
+  } else {
+    console.log("Nenhum código PIX fornecido.");
+    return;
+  }
+
   // Gera o QR code
+  console.log("Gerando QR code...");
   new QRCode(document.getElementById("qrcode"), {
     text: codePix,
     width: 200,
     height: 200,
   });
+
+  console.log("QR code gerado com sucesso.");
 }
+
 function showCodePix(codepix) {
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
