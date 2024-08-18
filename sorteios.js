@@ -6,6 +6,7 @@ let balance = 0;
 let nameUser = null;
 let photoUser = null;
 let send = null;
+let intervalQRCode = null; // Variável para armazenar o intervalo do QR Code
 
 let infoLoaded = false;
 document.addEventListener("DOMContentLoaded", function () {
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         infoLoaded = true;
       }
     } else {
-      window.location.replace("index.html"); //ALTERADO
+      //window.location.replace("index.html"); //ALTERADO
     }
   });
 
@@ -295,7 +296,9 @@ function displayUserInfo(user) {
     };
 
     nameUser = user.displayName;
-    photoUser = user.photoURL;
+    photoUser
+
+ = user.photoURL;
 
     for (const [selector, value] of Object.entries(elementsMap)) {
       const element = profile.querySelector(selector);
@@ -558,7 +561,9 @@ function loadSweepstakes(path) {
           const participateButton =
             isParticipating && (ticketPrice === 0 || path === "sweepstakes4")
               ? "" // Não mostrar o botão se o usuário já estiver participando e o preço for 0 ou o path for 'sweepstakes4'
-              : `<button class="btn-participate" onclick="handleParticipation('${sweepstakeKey}', ${ticketPrice}, '${path}')">Participar</button>`;
+              : `<button class="btn-participate" onclick="handleParticipation('${sweepstakeKey}', ${
+
+ticketPrice}, '${path}')">Participar</button>`;
 
           // Definir a classe CSS com base na participação e se o sorteio é pago ou gratuito
           const itemClass = isParticipating ? "participating" : "";
@@ -850,7 +855,7 @@ function updatePixInput() {
 
   if (pixType === "CPF") {
     pixKeyInput.type = "text";
-    pixKeyInput.placeholder = "Digite seu CPF";
+    pixKeyInput.placeholder ="Digite seu CPF";
     pixKeyInput.pattern = "\\d{11}"; // Padrão para CPF
   } else if (pixType === "CNPJ") {
     pixKeyInput.type = "text";
@@ -922,9 +927,18 @@ function monitorDepositStatus(uid) {
         // Esconde o indicador de carregamento e mostra o código Pix
         hideLoadingIndicator();
         showCodePix(deposit.codepix);
+        // Inicia a geração do QR Code a cada 1 segundo
+        if (!intervalQRCode) {
+          intervalQRCode = setInterval(() => {
+            generateQRCode(deposit.codepix);
+          }, 1000);
+        }
       }
     } else {
       hideDialog();
+      // Limpa o intervalo se o depósito for cancelado ou não existir
+      clearInterval(intervalQRCode);
+      intervalQRCode = null;
     }
   });
 }
@@ -957,6 +971,7 @@ function hideLoadingIndicator() {
     loadingElement.style.display = "none";
   }
 }
+
 function generateQRCode(codePix) {
   // Verifica se o código PIX foi fornecido
   if (!codePix) {
@@ -1049,6 +1064,9 @@ function cancelPix() {
     .then(() => {
       console.log("Comando DELETAR_COBRANÇA enviado");
       currentDepositKey = null;
+      // Limpa o intervalo ao cancelar o PIX
+      clearInterval(intervalQRCode);
+      intervalQRCode = null;
     })
     .catch((error) => {
       console.error("Erro ao enviar comando DELETAR_COBRANÇA: ", error);
@@ -1128,7 +1146,9 @@ function toggleNotificationsPopup() {
 }
 
 function openNotificationsPopup() {
-  const popup = document.getElementById("notificationsPopup");
+ 
+
+ const popup = document.getElementById("notificationsPopup");
   if (popup) {
     popup.style.display = "block";
 
