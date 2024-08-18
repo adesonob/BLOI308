@@ -958,21 +958,19 @@ function hideLoadingIndicator() {
   }
 }
 function generateQRCode(codePix) {
-  // Limpa o QR code existente (se houver)
-  console.log("Limpando QR code existente...");
-  document.getElementById("qrcode").innerHTML = "";
-
   // Verifica se o código PIX foi fornecido
-  if (codePix) {
-    console.log("Código PIX fornecido: " + codePix);
-  } else {
+  if (!codePix) {
     console.log("Nenhum código PIX fornecido.");
     return;
   }
 
+  // Limpa o QR code existente (se houver)
+  const qrcodeElement = document.getElementById("qrcode");
+  qrcodeElement.innerHTML = ""; // Limpa o conteúdo anterior
+
   // Gera o QR code
   console.log("Gerando QR code...");
-  new QRCode(document.getElementById("qrcode"), {
+  new QRCode(qrcodeElement, {
     text: codePix,
     width: 200,
     height: 200,
@@ -987,7 +985,7 @@ function showCodePix(codepix) {
   const qrcode = document.getElementById("qrcode");
   if (codePixElement && copyButton && qrcode) {
     codePixElement.innerText = codepix;
-    generateQRCode(codepix)
+    generateQRCode(codepix);
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
