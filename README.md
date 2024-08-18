@@ -1,2 +1,2 @@
 # BLOI308
-Sorteios de valores aleatórios
+Sorteios de valores aleatórios.
