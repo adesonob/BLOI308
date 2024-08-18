@@ -6,7 +6,6 @@ let balance = 0;
 let nameUser = null;
 let photoUser = null;
 let send = null;
-let intervalQRCode = null; // Variável para armazenar o intervalo do QR Code
 
 let infoLoaded = false;
 document.addEventListener("DOMContentLoaded", function () {
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         infoLoaded = true;
       }
     } else {
-      window.location.replace("index.html"); //ALTERADO
+      window.location.replace("index.html");
     }
   });
 
@@ -680,7 +679,6 @@ function irParaWhatsapp() {
 
 function handleDeposit() {
   toggleDrawer();
-  openModal();
   const uid = firebase.auth().currentUser.uid;
   const depositRef = firebase.database().ref(`deposits/${uid}`);
 
@@ -923,18 +921,9 @@ function monitorDepositStatus(uid) {
         // Esconde o indicador de carregamento e mostra o código Pix
         hideLoadingIndicator();
         showCodePix(deposit.codepix);
-        // Inicia a geração do QR Code a cada 1 segundo
-        if (!intervalQRCode) {
-          intervalQRCode = setInterval(() => {
-            //generateQRCode(deposit.codepix);
-          }, 1000);
-        }
       }
     } else {
       hideDialog();
-      // Limpa o intervalo se o depósito for cancelado ou não existir
-      clearInterval(intervalQRCode);
-      intervalQRCode = null;
     }
   });
 }
@@ -967,68 +956,20 @@ function hideLoadingIndicator() {
     loadingElement.style.display = "none";
   }
 }
-
-function generateQRCode(codePix) {
-  // Verifica se o código PIX foi fornecido
-  if (!codePix) {
-    console.log("Nenhum código PIX fornecido.");
-    return;
-  }
-
-  // Limpa o QR code existente (se houver)
-  const qrcodeElement = document.getElementById("qrcode");
-
-  // Verifica se o elemento foi acessado
-  if (qrcodeElement) {
-    console.log("Elemento qrcode acessado com sucesso.");
-    qrcodeElement.innerHTML = ""; // Limpa o conteúdo anterior
-  } else {
-    console.error("Elemento qrcode não encontrado.");
-    return;
-  }
-
-  // URL da API do QuickChart
-  const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(
-    codePix
-  )}&size=200`;
-
-  // Usa fetch para buscar a imagem do QR Code
-  fetch(qrCodeUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Erro ao gerar o QR Code");
-      }
-      return response.blob();
-    })
-    .then((blob) => {
-      const qrCodeImage = document.createElement("img");
-      qrCodeImage.src = URL.createObjectURL(blob);
-      qrCodeImage.alt = "QR Code";
-      qrcodeElement.appendChild(qrCodeImage);
-
-      console.log("QR code gerado e adicionado ao elemento com sucesso.");
-    })
-    .catch((error) => {
-      console.error("Erro ao gerar o QR Code:", error);
-    });
-}
-
-let codePix66;
+let codePIXIS66 = "";
 function showCodePix(codepix) {
-  codePix66 = codepix;
+  codePIXIS66 = codepix;
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
-  const qrcode = document.getElementById("ver-button");
-  if (codePixElement && copyButton && qrcode) {
+  //const ver_button = document.getElementById("ver-button");
+  if (codePixElement && copyButton) {
     codePixElement.innerText = codepix;
-    qrcode.style.display = "block";
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
 }
-
 function verCodePix() {
-  localStorage.setItem("pixText", codePix66);
+  localStorage.setItem("pixText", codePIXIS66);
   window.location.replace("qrview.html");
 }
 
@@ -1039,23 +980,9 @@ function copyCodePix() {
     textArea.value = codePixElement.innerText;
     document.body.appendChild(textArea);
     textArea.select();
-
-    try {
-      navigator.clipboard
-        .writeText(textArea.value)
-        .then(() => {
-          showToast("Código Pix copiado!");
-        })
-        .catch(() => {
-          document.execCommand("copy");
-          showToast("Código Pix copiado!");
-        });
-    } catch (err) {
-      document.execCommand("copy");
-      showToast("Código Pix copiado!");
-    }
-
+    document.execCommand("copy");
     document.body.removeChild(textArea);
+    showToast("Código Pix copiado!");
   }
 }
 
@@ -1067,9 +994,6 @@ function cancelPix() {
     .then(() => {
       console.log("Comando DELETAR_COBRANÇA enviado");
       currentDepositKey = null;
-      // Limpa o intervalo ao cancelar o PIX
-      clearInterval(intervalQRCode);
-      intervalQRCode = null;
     })
     .catch((error) => {
       console.error("Erro ao enviar comando DELETAR_COBRANÇA: ", error);
