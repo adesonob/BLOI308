@@ -7,21 +7,30 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
+let lastKey = null; // Armazena a chave do último participante carregado
+let loading = false; // Evita múltiplos carregamentos simultâneos
+
 // Função para exibir a lista de participantes
-function displayParticipants() {
+function displayParticipants(limit = 100, startKey = null) {
   const sweepstakeKey = getQueryParam("sweepstakeKey");
   const participantsList = document.getElementById("participants-list");
 
   // Buscar a chave do ganhador do localStorage
   const winnerKey = localStorage.getItem("winner_key");
 
+  let query = db.ref(`participants/${sweepstakeKey}`).limitToFirst(limit);
+
+  if (startKey) {
+    query = query.startAt(null, startKey); // Começa a partir do último participante carregado
+  }
+
+  loading = true; // Marca como carregando
+
   // Buscar os participantes no Realtime Database
-  db.ref(`participants/${sweepstakeKey}`)
-    .limitToFirst(10) // Limita a busca aos primeiros 10 participantes
-    .once("value")
+  query.once("value")
     .then((snapshot) => {
-      let participantsHTML = "";
-      let index = 1;
+      let participantsHTML = startKey ? participantsList.innerHTML : "";
+      let index = startKey ? participantsList.children.length + 1 : 1;
 
       snapshot.forEach((childSnapshot) => {
         const participant = childSnapshot.val();
@@ -37,17 +46,12 @@ function displayParticipants() {
                 </div>
             `;
         index++;
+        lastKey = childSnapshot.key; // Atualiza a última chave
       });
-
-      // Mensagem de mais participantes, exibida sempre ao lado
-      participantsHTML += `
-            <div class="more-participants">
-                Existem mais participantes que não podem ser exibidos.
-            </div>
-        `;
 
       participantsList.innerHTML = participantsHTML;
 
+      // Adiciona event listeners para os participantes carregados
       snapshot.forEach((childSnapshot) => {
         const participantContainer = document.getElementById(
           `participant-${childSnapshot.key}`
@@ -58,15 +62,24 @@ function displayParticipants() {
       });
 
       document.getElementById("spinner").style.display = "none";
+      loading = false; // Libera para o próximo carregamento
     })
     .catch((error) => {
       console.error("Erro ao buscar participantes: ", error);
+      loading = false;
     });
 }
+
+// Listener para carregar mais participantes ao rolar a página
+window.addEventListener('scroll', () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !loading) {
+    displayParticipants(100, lastKey);
+  }
+});
+
+// Chamar a função para exibir os primeiros participantes ao carregar a página
+displayParticipants();
 
 function goBack() {
   window.history.back();
 }
-
-// Chamar a função para exibir os participantes ao carregar a página
-displayParticipants();
