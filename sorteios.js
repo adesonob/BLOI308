@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         infoLoaded = true;
       }
     } else {
-      //window.location.replace("index.html"); //ALTERADO
+      window.location.replace("index.html"); //ALTERADO
     }
   });
 
@@ -296,9 +296,7 @@ function displayUserInfo(user) {
     };
 
     nameUser = user.displayName;
-    photoUser
-
- = user.photoURL;
+    photoUser = user.photoURL;
 
     for (const [selector, value] of Object.entries(elementsMap)) {
       const element = profile.querySelector(selector);
@@ -561,9 +559,7 @@ function loadSweepstakes(path) {
           const participateButton =
             isParticipating && (ticketPrice === 0 || path === "sweepstakes4")
               ? "" // Não mostrar o botão se o usuário já estiver participando e o preço for 0 ou o path for 'sweepstakes4'
-              : `<button class="btn-participate" onclick="handleParticipation('${sweepstakeKey}', ${
-
-ticketPrice}, '${path}')">Participar</button>`;
+              : `<button class="btn-participate" onclick="handleParticipation('${sweepstakeKey}', ${ticketPrice}, '${path}')">Participar</button>`;
 
           // Definir a classe CSS com base na participação e se o sorteio é pago ou gratuito
           const itemClass = isParticipating ? "participating" : "";
@@ -855,7 +851,7 @@ function updatePixInput() {
 
   if (pixType === "CPF") {
     pixKeyInput.type = "text";
-    pixKeyInput.placeholder ="Digite seu CPF";
+    pixKeyInput.placeholder = "Digite seu CPF";
     pixKeyInput.pattern = "\\d{11}"; // Padrão para CPF
   } else if (pixType === "CNPJ") {
     pixKeyInput.type = "text";
@@ -930,7 +926,7 @@ function monitorDepositStatus(uid) {
         // Inicia a geração do QR Code a cada 1 segundo
         if (!intervalQRCode) {
           intervalQRCode = setInterval(() => {
-            generateQRCode(deposit.codepix);
+            //generateQRCode(deposit.codepix);
           }, 1000);
         }
       }
@@ -1017,16 +1013,23 @@ function generateQRCode(codePix) {
     });
 }
 
+let codePix66;
 function showCodePix(codepix) {
+  codePix66 = codepix;
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
-  const qrcode = document.getElementById("qrcode");
+  const qrcode = document.getElementById("ver-button");
   if (codePixElement && copyButton && qrcode) {
     codePixElement.innerText = codepix;
-    generateQRCode(codepix);
+    qrcode.style.display = "block";
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
+}
+
+function verCodePix() {
+  localStorage.setItem("pixText", codePix66);
+  window.location.replace("qrview.html");
 }
 
 function copyCodePix() {
@@ -1146,9 +1149,7 @@ function toggleNotificationsPopup() {
 }
 
 function openNotificationsPopup() {
- 
-
- const popup = document.getElementById("notificationsPopup");
+  const popup = document.getElementById("notificationsPopup");
   if (popup) {
     popup.style.display = "block";
 
