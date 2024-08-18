@@ -956,34 +956,55 @@ function hideLoadingIndicator() {
     loadingElement.style.display = "none";
   }
 }
-let codePIXIS66 = "";
+
 function showCodePix(codepix) {
-  codePIXIS66 = codepix;
   const codePixElement = document.getElementById("codepix");
   const copyButton = document.getElementById("copy-button");
-  const ver_button = document.getElementById("ver-button");
-  if (codePixElement && copyButton && ver_button) {
+  if (codePixElement && copyButton) {
     codePixElement.innerText = codepix;
-    ver_button.style.display = "block";
     codePixElement.style.display = "block";
     copyButton.style.display = "block";
   }
 }
-function verCodePix() {
-  localStorage.setItem("pixText", codePIXIS66);
-  window.location.replace("qrview.html");
-}
 
-function copyCodePix() {
-  const codePixElement = document.getElementById("codepix");
-  if (codePixElement) {
-    const textArea = document.createElement("textarea");
-    textArea.value = codePixElement.innerText;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-    showToast("Código Pix copiado!");
+function copyToClipboard(elementId) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    const text = element.innerText || element.value; // Pega o texto do elemento (se for um input ou textarea, usa .value)
+
+    if (navigator.clipboard && window.isSecureContext) {
+      // Usa a API moderna de clipboard, se disponível
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          showToast("Texto copiado!");
+        })
+        .catch((err) => {
+          console.error("Falha ao copiar o texto: ", err);
+          showToast("Erro ao copiar!");
+        });
+    } else {
+      // Fallback para navegadores mais antigos
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed"; // Evita que a área de texto seja exibida na tela
+      textArea.style.opacity = 0;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+        showToast("Texto copiado!");
+      } catch (err) {
+        console.error("Erro ao copiar o texto: ", err);
+        showToast("Erro ao copiar!");
+      }
+
+      document.body.removeChild(textArea);
+    }
+  } else {
+    showToast("Elemento não encontrado!");
   }
 }
 
