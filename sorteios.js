@@ -439,8 +439,10 @@ function updateOrientationText(path) {
                     break;
 
                 case 'sweepstakes3':
-                    orientationText.innerHTML = 'Tem um grupo de amigos, familiares, colegas de escola ou trabalho? Entre em contato conosco e crie um sorteio exclusivo para o seu grupo! Personalize os prêmios e tenha uma experiência única. <a href="javascript:void(0);" onclick="openChat()">Fale com a gente</a> para saber mais detalhes.';
-                    break;
+    orientationText.innerHTML = 'Tem um grupo de amigos, familiares, colegas de escola ou trabalho? Ou tem uma loja e quer presentear seus clientes? Entre em contato conosco e crie um sorteio exclusivo! Personalize os prêmios e tenha uma experiência única. <a href="guidance-for-creating-sweepstakes.html">Clique aqui</a> para saber mais detalhes.';
+    break;
+
+
 
                 case 'sweepstakes2':
                     orientationText.textContent = 'Veja os sorteios que já foram concluídos e os vencedores.';
