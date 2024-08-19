@@ -477,22 +477,31 @@ currentListenerRef.on('value', snapshot => {
     const sweepstake = childSnapshot.val();
     
     // Verificar se existe a chave old_key e winner_key antes de usar
-    let oldKey = null;
-    let winnerKey = null;
-    if (path === 'sweepstakes2' && sweepstake.hasOwnProperty('old_key')) {
-        oldKey = sweepstake.old_key;
-    }
+let oldKey = null;
+let winnerKey = null;
+let winnerImage = null;
+if (path === 'sweepstakes2' && sweepstake.hasOwnProperty('old_key')) {
+    oldKey = sweepstake.old_key;
+}
 
-    if (sweepstake.hasOwnProperty('winner_key')) {
-        winnerKey = sweepstake.winner_key;
-    }
+if (sweepstake.hasOwnProperty('winner_key')) {
+    winnerKey = sweepstake.winner_key;
+}
 
-    const prize = formatCurrency(sweepstake.award);
-    const participants = sweepstake.current + '/' + sweepstake.total;
-    const ticketPrice = parseFloat(sweepstake.ticket);
-    const date = formatDate(sweepstake.timestamp);
-    const sweepstakeKey = childSnapshot.key; // Obter o ID do sorteio
-    const winner = sweepstake.winner ? `Ganhador: <span class="winner-blue">${sweepstake.winner}</span>` : 'Ainda sem ganhador';
+if (sweepstake.hasOwnProperty('winner_image')) {
+    winnerImage = sweepstake.winner_image;
+}
+
+const prize = formatCurrency(sweepstake.award);
+const participants = sweepstake.current + '/' + sweepstake.total;
+const ticketPrice = parseFloat(sweepstake.ticket);
+const date = formatDate(sweepstake.timestamp);
+const sweepstakeKey = childSnapshot.key; // Obter o ID do sorteio
+
+// Exibir a imagem e o nome do ganhador, se houver
+const winner = sweepstake.winner ? 
+    `Ganhador: <span class="winner-blue"><img src="${winnerImage}" alt="Imagem do ganhador" class="winner-image"> ${sweepstake.winner}</span>` : 
+    'Ainda sem ganhador';
 
     // Verificar se o usuário já está participando
     const isParticipating = sweepstake.list_of_participants && sweepstake.list_of_participants.hasOwnProperty(user.uid);
