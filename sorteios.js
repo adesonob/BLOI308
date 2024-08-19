@@ -1204,7 +1204,7 @@ function updateInvestmentInfo() {
     const numParticipants = parseInt(document.getElementById('numParticipants').value);
 
     if (!isNaN(prizeValue) && prizeValue >= 2 && !isNaN(numParticipants) && numParticipants >= 5) {
-        const ticketValue = (prizeValue * 2) / numParticipants;
+        const ticketValue = (prizeValue * 3) / numParticipants;
         document.getElementById('ticketValue').value = ticketValue.toFixed(2);
 
         const investmentText = `Valor do investimento: R$${prizeValue.toFixed(2)}`;
