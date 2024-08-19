@@ -276,6 +276,14 @@ button:hover {
     color: blue; /* Cor azul para mostrar o ganhador*/
 }
 
+.winner-image {
+    width: 30px; /* Ajuste o tamanho conforme necessário */
+    height: 30px;
+    border-radius: 50%; /* Torna a imagem redonda */
+    margin-right: 10px; /* Espaço entre a imagem e o nome */
+    vertical-align: middle; /* Alinha a imagem ao centro verticalmente com o texto */
+}
+
 .sweepstake-green {
     background-color: #e8f5e9; /* Fundo verde claro */
 }
