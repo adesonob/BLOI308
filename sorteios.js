@@ -223,7 +223,7 @@ function showIndicate() {
         const indicateLink = `https://bloi308.com/?ref=${user.uid}`;
         const shareData = {
             title: 'Indique e ganhe',
-            text: 'Esse é o maior site de sorteios gratuitos do Brasil!\nAcesse agora o Bloi308!\nUse meu link de indicação e ganhe R$1,00 para iniciar.\n',
+            text: '*Esse é o maior site de sorteios gratuitos do Brasil!*\nAcesse agora o *BLOI308* e descubra uma maneira divertida e emocionante de participar de sorteios incríveis. São diversas oportunidades para você ganhar prêmios sem gastar nada!\n*Participe e comece a se divertir hoje mesmo!*\n',
             url: indicateLink
         };
 
