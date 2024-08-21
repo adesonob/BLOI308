@@ -367,6 +367,7 @@ function displayUserInfo(user) {
             const referredPoints = snapshot.val();
             if (referredPoints !== null && pointsElement) {
                 pointsElement.textContent = `Pontos de indicação: ${referredPoints}`;
+                referred_points = ${referredPoints};
             } else {
                 if (pointsElement) {
                     pointsElement.textContent = `Pontos de indicação: 0`;
