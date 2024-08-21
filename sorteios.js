@@ -6,8 +6,8 @@ let balance = 0;
 let nameUser = null;
 let photoUser = null;
 let send = null;
-let referred_points = null;
-let referred_friends = null;
+let referred_points = 0;
+let referred_friends = 0;
 
 
 
