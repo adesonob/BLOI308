@@ -6,8 +6,6 @@ let balance = 0;
 let nameUser = null;
 let photoUser = null;
 let send = null;
-let referred_points = 0;
-let referred_friends = 0;
 
 
 
@@ -91,10 +89,11 @@ document.addEventListener('visibilitychange', () => {
         console.error('Erro ao verificar comando: ', error);
       });
   }
-      if (!document.hidden && lastServerTimestamp) {
+  
+  if (!document.hidden && lastServerTimestamp) {
         // Recalcular o tempo ao retornar à aba com o último timestamp conhecido
         checkServerTime(lastServerTimestamp);
-    }
+  }
 });
 
 let serverListenerRef = null;
@@ -367,7 +366,6 @@ function displayUserInfo(user) {
             const referredPoints = snapshot.val();
             if (referredPoints !== null && pointsElement) {
                 pointsElement.textContent = `Pontos de indicação: ${referredPoints}`;
-                referred_points = ${referredPoints};
             } else {
                 if (pointsElement) {
                     pointsElement.textContent = `Pontos de indicação: 0`;
@@ -1336,27 +1334,3 @@ msgRef.on('value', (snapshot) => {
         winnersMarquee.appendChild(winnerSpan);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
