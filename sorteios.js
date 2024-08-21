@@ -89,30 +89,49 @@ document.addEventListener('visibilitychange', () => {
         console.error('Erro ao verificar comando: ', error);
       });
   }
+      if (!document.hidden && serverListenerRef) {
+        // Rechecar o tempo ao retornar à aba
+        serverListenerRef.once('value', snapshot => {
+            if (snapshot.exists()) {
+                const serverTimestamp = snapshot.val();
+                checkServerTime(serverTimestamp);
+            }
+        });
+      }
 });
 
 let serverListenerRef = null;
+
 function server() {
-  if (serverListenerRef) {
-            serverListenerRef.off();
+    if (serverListenerRef) {
+        serverListenerRef.off();
+    }
+
+    serverListenerRef = db.ref('settings/server');
+    serverListenerRef.on('value', snapshot => {
+        if (snapshot.exists()) {
+            const serverTimestamp = snapshot.val();
+            checkServerTime(serverTimestamp);
+        } else {
+            console.error('O timestamp do servidor não está disponível.');
         }
-        let serverTimestamp;
-        serverListenerRef = db.ref('settings/server');
-        serverListenerRef.on('value', snapshot => {
-            if (snapshot.exists()) {
-                serverTimestamp = snapshot.val();
-                let currentTime = Date.now();
-                let differenceInSeconds = (currentTime - serverTimestamp) / 1000;
-                let differenceInMinutes = Math.floor(differenceInSeconds / 60);
-                
-                if (differenceInMinutes > 1) {
-                    window.location.replace('manutencao.html');
-                }
-            } else {
-                console.error('O timestamp do servidor não está disponível.');
-            }
-        });
+    });
 }
+
+function checkServerTime(serverTimestamp) {
+    const currentTime = Date.now();
+    const differenceInSeconds = (currentTime - serverTimestamp) / 1000;
+    const differenceInMinutes = Math.floor(differenceInSeconds / 60);
+
+    if (differenceInMinutes > 1) {
+        window.location.replace('manutencao.html');
+    }
+}
+
+document.addEventListener('visibilitychange', () => {
+
+});
+
 
 function viewParticipants(sweepstakeKey, winnerKey) {
     console.log(sweepstakeKey);
