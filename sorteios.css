@@ -74,8 +74,9 @@
 }
 
 .profile .points {
-    font-size: 0.9em;
+    font-size: 1em;
     color: #65337a;
+    font-weight: bold;
 }
 
 .profile .actions {
