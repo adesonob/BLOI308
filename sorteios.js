@@ -89,18 +89,14 @@ document.addEventListener('visibilitychange', () => {
         console.error('Erro ao verificar comando: ', error);
       });
   }
-      if (!document.hidden && serverListenerRef) {
-        // Rechecar o tempo ao retornar à aba
-        serverListenerRef.once('value', snapshot => {
-            if (snapshot.exists()) {
-                const serverTimestamp = snapshot.val();
-                checkServerTime(serverTimestamp);
-            }
-        });
-      }
+      if (!document.hidden && lastServerTimestamp) {
+        // Recalcular o tempo ao retornar à aba com o último timestamp conhecido
+        checkServerTime(lastServerTimestamp);
+    }
 });
 
 let serverListenerRef = null;
+let lastServerTimestamp = null;
 
 function server() {
     if (serverListenerRef) {
@@ -110,8 +106,8 @@ function server() {
     serverListenerRef = db.ref('settings/server');
     serverListenerRef.on('value', snapshot => {
         if (snapshot.exists()) {
-            const serverTimestamp = snapshot.val();
-            checkServerTime(serverTimestamp);
+            lastServerTimestamp = snapshot.val();
+            checkServerTime(lastServerTimestamp);
         } else {
             console.error('O timestamp do servidor não está disponível.');
         }
@@ -127,10 +123,6 @@ function checkServerTime(serverTimestamp) {
         window.location.replace('manutencao.html');
     }
 }
-
-document.addEventListener('visibilitychange', () => {
-
-});
 
 
 function viewParticipants(sweepstakeKey, winnerKey) {
