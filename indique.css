@@ -1,0 +1,143 @@
+        #indique-ganhe-button {
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #indique-ganhe-button:hover {
+            background-color: #45a049;
+        }
+
+        .dialogr {
+            display: none;
+            position: fixed;
+            
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .dialogr h2 {
+            margin-top: 0;
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #ranking-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #ranking-list li {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        #ranking-list li:hover {
+            background-color: #e9e9e9;
+        }
+
+        .user-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .ranking-position {
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+            color: #3949AB;
+        }
+
+        .user-name {
+            font-size: 18px;
+            flex-grow: 1;
+            color: #333;
+        }
+
+        .friends-count {
+            font-size: 16px;
+            color: #777;
+        }
+
+        #user-stats {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        #user-stats p {
+            margin: 5px 0;
+        }
+
+        #share-button, #use-points-button, #close-dialog {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        #share-button {
+            background-color: #3949AB;
+        }
+
+        #share-button:hover {
+            background-color: #303f9f;
+        }
+
+        #use-points-button {
+            background-color: #FF9800;
+        }
+
+        #use-points-button:hover {
+            background-color: #fb8c00;
+        }
+
+        #close-dialog {
+            background-color: #f44336;
+        }
+
+        #close-dialog:hover {
+            background-color: #d32f2f;
+        }
+
+        .dialog::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: #3949AB;
+            border-radius: 2px;
+        }
+    
